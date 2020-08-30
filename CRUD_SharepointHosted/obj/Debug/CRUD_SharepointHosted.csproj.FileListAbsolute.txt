@@ -1,0 +1,4 @@
+C:\Dev\Sharepoint\AddinsDemo\SharePointHostedDemo\CRUD_SharepointHosted\CRUD_SharepointHosted\bin\Debug\CRUD_SharepointHosted.pdb
+C:\Dev\Sharepoint\AddinsDemo\SharePointHostedDemo\CRUD_SharepointHosted\CRUD_SharepointHosted\obj\Debug\CRUD_SharepointHosted.csproj.CoreCompileInputs.cache
+C:\Dev\Sharepoint\AddinsDemo\SharePointHostedDemo\CRUD_SharepointHosted\CRUD_SharepointHosted\obj\Debug\CRUD_SharepointHosted.dll
+C:\Dev\Sharepoint\AddinsDemo\SharePointHostedDemo\CRUD_SharepointHosted\CRUD_SharepointHosted\obj\Debug\CRUD_SharepointHosted.pdb

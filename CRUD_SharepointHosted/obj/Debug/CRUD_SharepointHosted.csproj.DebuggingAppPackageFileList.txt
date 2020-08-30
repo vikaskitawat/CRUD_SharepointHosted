@@ -1,0 +1,1 @@
+C:\Dev\Sharepoint\AddinsDemo\SharePointHostedDemo\CRUD_SharepointHosted\CRUD_SharepointHosted\bin\Debug\CRUD_SharepointHosted.debugapp
