@@ -75,6 +75,7 @@ function initializePage()
 
     function createListItem() {
         alert('Submit button is clicked');
+        alert('_spPageContextInfo.siteAbsoluteUrl:' + _spPageContextInfo.siteAbsoluteUrl);
         alert($("#txtFullName").val());
         $.ajax({
             url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('RegistrationDetails')/items",
@@ -117,4 +118,107 @@ function initializePage()
             }
         }
     }
+
+    function GetRegistrationDetailsByID() {
+        var idValue = $("#txtItemID").val();
+        $.ajax({
+            url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('RegistrationDetails')/items('" + idValue + "')",
+            type: "GET",
+            headers: { "Accept": "application/json;odata=verbose" }, // return data format  
+            success: function (data) {
+                $("#txtFullName").val(data.d.FullName);
+                $("#txtAddress").val(data.d.Address);
+                $("#txtEmailID").val(data.d.EmailID);
+                $("#txtMobile").val(data.d.Mobile);
+                $("#tblRegistrationDetails").empty();
+                GetRegistrationDetails();
+            },
+            error: function (error) {
+                alert(JSON.stringify(error));
+            }
+        });
+    }
+
+    function updateItem() {
+        var id = $("#txtItemID").val();
+        $.ajax({
+            url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('RegistrationDetails')/items('" + id + "')", // list item ID    
+            type: "POST",
+            data: JSON.stringify
+                ({
+                    __metadata:
+                    {
+                        type: "SP.Data.RegistrationDetailsListItem"
+                    },
+                    FullName: $("#txtFullName").val(),
+                    Address: $("#txtAddress").val(),
+                    EmailID: $("#txtEmailID").val(),
+                    Mobile: $("#txtMobile").val()
+                }),
+            headers:
+            {
+                "Accept": "application/json;odata=verbose",
+                "Content-Type": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "IF-MATCH": "*",
+                "X-HTTP-Method": "MERGE"
+            },
+            success: function (data, status, xhr) {
+                alert("Date Updated Successfully");
+            },
+            error: function (xhr, status, error) {
+                alert('Error updating data');
+                alert(JSON.stringify(error));
+            }
+        });
+    }
+
+    function deleteItem() {
+        var id = $("#txtItemID").val();
+
+        $.ajax
+            ({
+                url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('RegistrationDetails')/items('" + id + "')",
+                type: "POST",
+                headers:
+                {
+                    "Accept": "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "IF-MATCH": "*",
+                    "X-HTTP-Method": "DELETE"
+                },
+                success: function (data, status, xhr) {
+                    $("#tblEmployees").empty();
+                    GetRegistrationDetails();
+                    alert("Successfully record deleted");
+                },
+                error: function (xhr, status, error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+    }
+
+    function GetRegistrationDetails() {
+        $.ajax({
+            url: _spPageContextInfo.siteAbsoluteUrl + "/_api/web/lists/getbytitle('RegistrationDetails')/items?$select=ID,FullName,Address,Mobile,EmailID",
+            type: "GET",
+            headers: { "Accept": "application/json;odata=verbose" }, // return data format  
+            success: function (data) {
+                //console.log(data.d.results);  
+                var table = $("#tblRegistrationDetails");
+                var html = "<thead><tr><th>ID</<th><th>Full Name</th><th>Address</th><th>Email ID</th><th>Mobile Number</th></tr></thead>";
+                for (var i = 0; i < data.d.results.length; i++) {
+                    var item = data.d.results[i];
+                    html += "<tr><td>" + item.ID + "</td><td>" + item.FullName + "</td><td>" + item.Address + "</td><td>" + item.EmailID + "</td><td>" + item.Mobile + "</td></tr>";
+                }
+                table.html(html);
+            },
+            error: function (error) {
+                alert(JSON.stringify(error));
+            }
+        });
+    } 
+
+
 }
